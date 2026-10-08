@@ -1,0 +1,61 @@
+=== 1. Artefact access and version ===
+[PASS] Repository commit: a96779829fc5ea641089afdb161298f4da3962ae
+[PASS] Dataset SHA (git blob): 6e1075ead90054ff9955cf310842c0d31a41e5dc
+[PASS] Dataset loads: 2148 rows x 7 cols: ['sample_id', 'start_line', 'end_line', 'link', 'label', 'code_snippet', 'count_statement']
+[PASS] Row count = 2,148 (paper): 2148
+[PASS] Class balance 1,687 / 461 (paper): {0: 1687, 1: 461}
+[PASS] sample_id unique: 2148 unique of 2148
+[PASS] Code snippet present for all rows: 0 missing
+NOTE: precomputed metric columns in CSV: none -> the 7 features must be computed from code_snippet.
+
+=== 2. Frozen 12 sample IDs ===
+[PASS] All 12 frozen IDs present: 12/12
+[PASS] Frozen IDs = first 12 by sample_id: match
+                                                file  start_line  end_line  label
+sample_id                                                                        
+3698323    PlaybackNearlyFinishedRequestHandler.java          26        59      0
+3699849                     CanalMetricsService.java          13        47      0
+3700666                              CanalEntry.java        8477      9689      1
+3702984                              PhTypeUtil.java          21       609      1
+3705164                          ClientIdentity.java          14       105      0
+3710201                                  Leb128.java          26       161      0
+3711605                  MavenWrapperDownloader.java          25       110      1
+3715636                         BasicBundleInfo.java         220       365      0
+3717506                          BundleListener.java          24        32      0
+3721456                        AtlasVirtualFile.java         721       795      0
+3723043                          MultiDexConfig.java         220       302      1
+3725605                 ClassStructureImplByJDK.java         109       252      1
+
+Duplicate code snippets: 1 groups (2 rows); with conflicting labels: 1 groups (2 rows)
+  frozen case 3711605 has conflicting twins [sample_id, label]: [[3711605, 1], [7450485, 0]]
+
+=== 3. Metric-based: compute the 7 features (authors' own functions) ===
+[PASS] Author metric functions loaded: count_methods@line 457, count_fields@line 473, calculate_tcc@line 488, count_lines_of_code@line 524, calculate_atfd@line 537, calculate_cyclomatic_complexity@line 604, calculate_lcom5@line 636
+[PASS] Features computed for all 2,148 samples: 2148 ok, 0 failed
+[PASS] Features computed for all 12 frozen cases: failed: none
+           count_methods  count_fields        tcc  cyclomatic_complexity   loc  atfd  lcom5
+sample_id                                                                                  
+3698323                4             0   0.500000                      2    29     6      2
+3699849                6             0   0.000000                      1    28     3     30
+3700666               78            10  13.589744                     81  1188    43   4276
+3702984               35            12  16.800000                     92   547    88   1000
+3705164               10             4   0.000000                      9    75     4     90
+3710201                6             0   0.666667                     10   112     8      8
+3711605                2             4   1.000000                      5    77     3      2
+3715636               28            14   0.000000                      1   103    14    756
+3717506                1             0   0.000000                      1     9     1      0
+3721456                3             2   1.333333                      7    61     4      4
+3723043               14             7   0.000000                      1    62     7    182
+3725605               16             4   1.750000                     12   125     6    156
+
+=== 4. One-fold smoke test (no scores printed) ===
+Fold 1: train=1933, test=215 (frozen cases in this test fold: [])
+[PASS] Metric-based (7 features) + SVM pipeline runs end to end: train (1933, 7) -> after SMOTE (3050, 7), 215 test predictions produced (values withheld until M2)
+TF-IDF vocabulary (train fold only): 53351 unigrams
+[PASS] Token-based (TF-IDF) + SVM pipeline runs end to end: train (1933, 53351) -> after SMOTE (3050, 53351), 215 test predictions produced (values withheld until M2)
+
+=== Environment ===
+python 3.13.16 | pandas 3.0.5 | numpy 2.5.3 | scikit-learn 1.9.1 | imbalanced-learn 0.14.2 | javalang 0.13.0
+
+=== Summary ===
+14/14 checks passed

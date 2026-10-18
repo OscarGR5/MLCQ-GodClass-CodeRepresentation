@@ -1,0 +1,23 @@
+P35 M2 reproduction - PILOT (fold 1 only)
+started 2026-10-18T15:28:08+01:00
+command: python3 m2/run_reproduction.py . --out m2 --pilot
+
+=== 1. Input identity ===
+repo HEAD: c7a8c3e060b429e6a7845deba94f5a79a0802fc2
+frozen commit a96779829fc5ea641089afdb161298f4da3962ae in history: True
+data/ and scripts/ unchanged since frozen commit: True
+dataset SHA: 6e1075ead90054ff9955cf310842c0d31a41e5dc (expected 6e1075ead90054ff9955cf310842c0d31a41e5dc)
+rows: 2148; labels: {0: 1687, 1: 461}
+
+=== 2. Metric-based features (authors' functions, used unchanged) ===
+loaded: count_methods@line 457, count_fields@line 473, calculate_tcc@line 488, count_lines_of_code@line 524, calculate_atfd@line 537, calculate_cyclomatic_complexity@line 604, calculate_lcom5@line 636
+features computed: 2148 ok, 0 failed
+
+=== 3. Cross-validation ===
+KFold(n_splits=10, shuffle=True, random_state=42); SMOTE(random_state=42); SVC(probability=True, random_state=42)
+TF-IDF: TfidfVectorizer(ngram_range=(1, 1)) fitted per training fold; scaled with StandardScaler(with_mean=False)
+fold  1: train=1933 (after SMOTE 3050), test=215, vocab=53351, frozen cases in fold=[], 23s
+
+wrote pilot_predictions.csv (215 rows) and pilot_fold_metrics.csv
+
+PILOT PASSED: both pipelines produced one valid prediction per test-fold sample. Scores are in pilot_fold_metrics.csv; they are NOT a result.

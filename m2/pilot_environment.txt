@@ -1,0 +1,14 @@
+run_started: 2026-10-18T15:28:08+01:00
+command: python3 m2/run_reproduction.py . --out m2 --pilot
+mode: pilot (fold 1 only)
+repo_head: c7a8c3e060b429e6a7845deba94f5a79a0802fc2
+frozen_commit: a96779829fc5ea641089afdb161298f4da3962ae
+dataset: data/god_class_df.csv  sha=6e1075ead90054ff9955cf310842c0d31a41e5dc  rows=2148
+python: 3.14.7  (macOS-26.5-arm64-arm-64bit-Mach-O)
+numpy: 2.5.4
+pandas: 3.0.6
+scikit-learn: 1.9.1
+imbalanced-learn: 0.14.2
+javalang: 0.13.0
+seed: 42 (KFold, SMOTE, SVC)
+metric zero_division: 0 (a model predicting no positives gets precision/F1 = 0)

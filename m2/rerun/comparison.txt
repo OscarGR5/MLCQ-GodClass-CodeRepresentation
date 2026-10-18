@@ -1,0 +1,62 @@
+CS4928 P35 M2 independent reproduction comparison
+Date: 2026-10-18
+
+Run completion and input identity
+- Tudor's reference run completed successfully, as evidenced by m2/run_log.txt reaching its finished entry and recording the expected outputs.
+- Óscar's independent Linux rerun completed successfully with exit code 0, as evidenced by the recorded execution result and m2/rerun/run_log.txt reaching its finished entry.
+- Both runs produced the expected evidence files: predictions.csv, fold_metrics.csv, disagreements.csv, results.md, environment.txt, and run_log.txt.
+- Branch: SmellDetection
+- git pull --ff-only: Already up to date.
+- Rerun repository HEAD: 0b9fd5e79e649f879bf08afc65d8e63ff06389e8
+- Tudor reference run HEAD: c7a8c3e060b429e6a7845deba94f5a79a0802fc2
+- Tudor reference HEAD is an ancestor of the rerun HEAD.
+- Frozen commit a96779829fc5ea641089afdb161298f4da3962ae is in history.
+- data/ and scripts/ are unchanged from the frozen commit.
+- Dataset Git blob SHA: 6e1075ead90054ff9955cf310842c0d31a41e5dc (matches frozen value).
+- Actual interpreter command: /home/admin/venvs/p35/bin/python m2/run_reproduction.py . --out m2/rerun
+- The script records the executable generically as "python3" in environment.txt and run_log.txt.
+
+Environment
+- Rerun: Python 3.14.8, Linux 7.2.10 x86_64, glibc 2.43.
+- Tudor: Python 3.14.7, macOS 26.5 arm64.
+- Unavoidable differences: Python patch version, operating system, CPU architecture, C runtime/compiler build.
+- Exact requested package matches: numpy 2.5.4, pandas 3.0.6, scikit-learn 1.9.1, imbalanced-learn 0.14.2, javalang 0.13.0.
+- Full rerun package set is recorded in pip_freeze.txt.
+
+Byte comparison and SHA-256
+- predictions.csv: cmp exit 1 (different)
+  Tudor: d8d40879d57d1e00ee2702c26829ba723c12778fc36d7f5540955a2baf1f5ef1
+  Rerun: f68ae6d9031675fe7c24466d0cb72b4b2a5040ec9e07bfb7d8c10c8a1adb10b0
+- fold_metrics.csv: cmp exit 1 (different)
+  Tudor: 75082e615d44f82a4357e8eff0e01629bc205cfcaa88954d4e4981e41bce074b
+  Rerun: 8582c341a77e232bc5d5ffe8e5c6662097291424c3ce96b4f37de2c830423d3b
+- disagreements.csv: cmp exit 1 (different)
+  Tudor: e2fc9817aed68b3d5aa247a7e7b8699dfb9f07eb0e69a1c98477d03760a886f3
+  Rerun: a07fc60d63493f60a438484e81ce856fd9bee7fbe3fee8037eb082f8af0ec15e
+
+Prediction-level differences
+- Both predictions files contain the same 2,148 sample IDs, folds, and true labels.
+- All 2,148 metric-based predictions match Tudor's output.
+- 2 of 2,148 token-based predictions differ, both in fold 8:
+  sample 5702079, true label 1, metric prediction 1: Tudor token 0; rerun token 1.
+  sample 6080166, true label 0, metric prediction 1: Tudor token 0; rerun token 1.
+- The two samples were disagreements in Tudor's file and are agreements in the rerun.
+- Tudor has 822 disagreements; the rerun has 820.
+
+Fold-metric differences
+- The only logical fold-metric difference is fold 8, Token-based.
+- Accuracy is unchanged at 0.5720930232558139.
+- Precision: Tudor 0.2782608695652174; rerun 0.28205128205128205.
+- Recall: Tudor 0.7804878048780488; rerun 0.8048780487804879.
+- F1: Tudor 0.41025641025641024; rerun 0.4177215189873418.
+- Every other fold/representation row matches.
+
+Frozen 12-sample recalculation from rerun predictions
+- Metric-based: TP 4, FP 3, FN 1, TN 4; F1 0.6666666667 (0.6667 rounded).
+- Token-based: TP 4, FP 3, FN 1, TN 4; F1 0.6666666667 (0.6667 rounded).
+- All 12 frozen-sample prediction rows match Tudor's reference output.
+
+Verification outcome
+- The independent unchanged run completed and reproduced Tudor's frozen-sample result: both representations obtain F1 = 0.6667.
+- The full-dataset raw predictions and derived metrics are not byte-identical because of the two fold-8 token prediction differences documented above.
+- This records the independent run only. It does not assign or finalize the group's milestone status.

@@ -1,0 +1,33 @@
+P35 M2 reproduction - FULL RUN
+started 2026-10-18T15:52:57+01:00
+command: python3 m2/run_reproduction.py . --out m2/rerun
+
+=== 1. Input identity ===
+repo HEAD: 0b9fd5e79e649f879bf08afc65d8e63ff06389e8
+frozen commit a96779829fc5ea641089afdb161298f4da3962ae in history: True
+data/ and scripts/ unchanged since frozen commit: True
+dataset SHA: 6e1075ead90054ff9955cf310842c0d31a41e5dc (expected 6e1075ead90054ff9955cf310842c0d31a41e5dc)
+rows: 2148; labels: {0: 1687, 1: 461}
+
+=== 2. Metric-based features (authors' functions, used unchanged) ===
+loaded: count_methods@line 457, count_fields@line 473, calculate_tcc@line 488, count_lines_of_code@line 524, calculate_atfd@line 537, calculate_cyclomatic_complexity@line 604, calculate_lcom5@line 636
+features computed: 2148 ok, 0 failed
+
+=== 3. Cross-validation ===
+KFold(n_splits=10, shuffle=True, random_state=42); SMOTE(random_state=42); SVC(probability=True, random_state=42)
+TF-IDF: TfidfVectorizer(ngram_range=(1, 1)) fitted per training fold; scaled with StandardScaler(with_mean=False)
+fold  1: train=1933 (after SMOTE 3050), test=215, vocab=53351, frozen cases in fold=[], 38s
+fold  2: train=1933 (after SMOTE 3024), test=215, vocab=54600, frozen cases in fold=[3723043], 36s
+fold  3: train=1933 (after SMOTE 3076), test=215, vocab=54985, frozen cases in fold=[3699849, 3702984], 34s
+fold  4: train=1933 (after SMOTE 3024), test=215, vocab=55874, frozen cases in fold=[3715636], 35s
+fold  5: train=1933 (after SMOTE 3022), test=215, vocab=55863, frozen cases in fold=[], 34s
+fold  6: train=1933 (after SMOTE 3036), test=215, vocab=55331, frozen cases in fold=[3725605], 34s
+fold  7: train=1933 (after SMOTE 3052), test=215, vocab=55452, frozen cases in fold=[3698323, 3717506], 36s
+fold  8: train=1933 (after SMOTE 3026), test=215, vocab=55335, frozen cases in fold=[3700666, 3710201, 3721456], 35s
+fold  9: train=1934 (after SMOTE 3034), test=214, vocab=53927, frozen cases in fold=[], 35s
+fold 10: train=1934 (after SMOTE 3022), test=214, vocab=55669, frozen cases in fold=[3705164, 3711605], 34s
+
+wrote predictions.csv (2148 rows) and fold_metrics.csv
+wrote results.md and disagreements.csv (820 disagreements)
+finished 2026-10-18T16:00:46+01:00
+Next: open results.md, check section 1 against predictions.csv, then apply the frozen decision rule.

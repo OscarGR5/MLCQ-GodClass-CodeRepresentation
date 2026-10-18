@@ -87,8 +87,7 @@ Format per entry: **what** changed / was found · **why** · **effect on interpr
 - **Decision-relevant outputs unchanged:** all 12 frozen rows identical; 12-case F1
   Metric 0.6667 / Token 0.6667 on both machines. The first 10 disagreements (RQ2
   sample) are unchanged; the two differing cases sit at positions 299 and 361.
-- **Likely cause:** [fill in after comparing the two environment.txt files, e.g.
-  different scikit-learn/numpy versions or CPU architecture]. The Token model uses
+- **Likely cause:** [Apple Silicon/macOS vs x86_64/Linux, same library versions]. The Token model uses
   ~55k TF-IDF features, so near-boundary cases are sensitive to floating-point
   differences; the 7-feature Metric model is not affected.
 - **Effect:** none on the RQ1 status or the RQ2 sample. Primary results are Tudor's

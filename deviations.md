@@ -77,4 +77,21 @@ Format per entry: **what** changed / was found · **why** · **effect on interpr
 ---
 
 ## Pending
-- Second-machine re-run (Oscar): `m2/rerun/comparison.txt`. Add the outcome here when committed.
+- Second-machine re-run (Oscar): `m2/rerun/comparison.txt`. 
+
+## Reproducibility check: second-machine re-run (18 Oct)
+- **What:** Oscar re-ran `m2/run_reproduction.py` on a second machine (`m2/rerun/`).
+- **Result:** all 2,148 Metric-based predictions identical. 2 of 2,148 Token-based
+  predictions differ, both in fold 8: 5702079 and 6080166 (Tudor 0, re-run 1).
+  Only fold-8 Token metrics change; disagreements 822 -> 820.
+- **Decision-relevant outputs unchanged:** all 12 frozen rows identical; 12-case F1
+  Metric 0.6667 / Token 0.6667 on both machines. The first 10 disagreements (RQ2
+  sample) are unchanged; the two differing cases sit at positions 299 and 361.
+- **Likely cause:** [fill in after comparing the two environment.txt files, e.g.
+  different scikit-learn/numpy versions or CPU architecture]. The Token model uses
+  ~55k TF-IDF features, so near-boundary cases are sensitive to floating-point
+  differences; the 7-feature Metric model is not affected.
+- **Effect:** none on the RQ1 status or the RQ2 sample. Primary results are Tudor's
+  run (`m2/`); the re-run is supporting evidence. Threat noted: Token predictions
+  are reproducible only up to platform-level numerical differences.
+- **Evidence:** `m2/rerun/comparison.txt`, `m2/rerun/predictions.csv`, both `environment.txt` files.

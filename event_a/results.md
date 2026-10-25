@@ -22,6 +22,14 @@ Holdout labels: {'total': 494, 'negative': 381, 'positive': 113, 'positive_rate'
 The primary M2 bounded result was a tie: Metric F1 0.6667 and Token F1 0.6667, therefore NOT REPRODUCED under its frozen rule.
 The secondary M2 full-dataset ten-fold CV mean F1 was Metric 0.6379 and Token 0.4135. These are context baselines, not an independent held-out comparison.
 
+## Transfer interpretation (post-execution)
+
+**What transfers:** The Metric-based SVM's positive-class F1 advantage over Token/TF-IDF in the secondary M2 full-data CV (0.6379 vs 0.4135) also appears on the Event A project-disjoint holdout (0.6337 vs 0.4558). The preregistered Metric > Token prediction is supported for these 494 held-out samples.
+
+**What does not:** The primary M2 bounded-sample result was a tie (F1 0.6667 for each representation) and remains NOT REPRODUCED under its own frozen decision rule. That tie does not appear in Event A; the absolute F1 values also differ. M2 bounded, M2 CV, and Event A use different evaluation subsets/protocols, so differences do not establish a causal change in model quality.
+
+**Strongest evidence:** `event_a/predictions.csv` contains the 494 held-out sample IDs, labels, and both predictions; `event_a/metrics.json` records the confusion counts and F1 values recomputed from that file. `event_a/split_manifest.csv`, the `EVENT_A_PLAN` tag, and `event_a/run_holdout.py` make the frozen assignment and method auditable. This is project-disjoint within Event A but not a wholly independent external validation of the prior M2 work on the same dataset.
+
 ## Evidence validation
 
 The dataset blob SHA, manifest assignments, project disjointness, and exact-snippet non-overlap were checked before fitting. Metrics were independently recomputed from the saved prediction CSV and matched the reported values.

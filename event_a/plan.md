@@ -10,13 +10,17 @@ Before training, any candidate-training sample whose exact `code_snippet` occurs
 
 ## Frozen M2 baseline and Event A method
 
-The M2 baseline is the frozen `m2/run_reproduction.py` method: metric-based versus token-based SVM; seven authors' metric functions; TF-IDF unigrams with the default scikit-learn tokenizer; training-only scaling, SMOTE, and TF-IDF fitting; `SVC(probability=True, random_state=42)`; `SMOTE(random_state=42)`; and the existing decision threshold and seed. M2's full-dataset fold-average F1 results were 0.6379 for metric-based SVM and 0.4135 for token-based SVM. Its 12-case bounded sample was tied at 0.6667 each.
+The frozen M2 method compares metric-based SVM with Token/TF-IDF SVM. Metric-based SVM uses the seven authors' metric functions, `StandardScaler()`, training-only `SMOTE(random_state=42)`, and `SVC(probability=True, random_state=42)`. Token/TF-IDF SVM uses `TfidfVectorizer(ngram_range=(1, 1))` with the default scikit-learn tokenizer, `StandardScaler(with_mean=False)`, the same training-only SMOTE configuration, and the same SVC configuration. The existing SVM defaults, decision threshold, and random seed remain frozen.
 
-For Event A, only the split changes. The representation, preprocessing, SMOTE configuration, SVM configuration, decision threshold, and random seeds remain frozen. No hyperparameter tuning, model selection, or split revision is permitted after inspecting Event A results.
+M2 used `KFold(n_splits=10, shuffle=True, random_state=42)` for cross-validation. Event A replaces only that cross-validation split with `split_manifest.csv`: fit on `training`, omit `excluded`, and evaluate on `holdout`. No hyperparameter tuning, model selection, preprocessing change, seed change, or split revision is permitted after observing Event A results.
+
+The M2 secondary full-dataset CV mean F1 was 0.6379 for Metric and 0.4135 for Token. The primary M2 bounded result was Metric F1 = 0.6667 and Token F1 = 0.6667; under the frozen decision rule, this tie is **NOT REPRODUCED**.
 
 ## Pre-registered prediction
 
 "Metric-based SVM will achieve a higher F1-score than token-based SVM on the held-out projects, consistent with the full-dataset M2 results (0.6379 versus 0.4135). However, our primary M2 bounded sample produced a tie (0.6667 versus 0.6667), so the advantage may not transfer."
+
+Operational prediction: Metric-based SVM achieves higher positive-class F1 than Token/TF-IDF SVM on the holdout, although both may perform worse than in M2 CV.
 
 Primary metric: positive-class F1.
 
@@ -25,6 +29,10 @@ Secondary metrics: precision, recall, accuracy and confusion counts.
 Challenge criterion:
 
 "Metric-based F1 less than or equal to token-based F1 on the held-out set."
+
+## Git reference reconciliation
+
+The historical GitHub tags `M2_REPRO` and `PRE_EVENT_A` both resolve to `c29bd308d2bee84694ae8f6c193d9ebc5e264834`, one commit after `d10d0c0b3f1de34cf2ba07971d98cea7c18cd6c9`. That follow-up changes only `deviations.md`; it does not alter the frozen dataset, M2 method, raw M2 evidence, or M2 results. Before local references were aligned to the GitHub tags, their former targets were preserved under `LOCAL_M2_REPRO_BEFORE_REMOTE_RECONCILIATION` (`d10d0c0b3f1de34cf2ba07971d98cea7c18cd6c9`) and `LOCAL_PRE_EVENT_A_BEFORE_REMOTE_RECONCILIATION` (`ed32497c40cdba2bb98335ceb12d77edc9fb7729`). The Event A plan is published under the separate `EVENT_A_PLAN` tag; the historical tag names are not used for this plan.
 
 ## Validity limits
 

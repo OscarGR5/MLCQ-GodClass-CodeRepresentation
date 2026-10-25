@@ -26,3 +26,28 @@ The secondary M2 full-dataset ten-fold CV mean F1 was Metric 0.6379 and Token 0.
 
 The dataset blob SHA, manifest assignments, project disjointness, and exact-snippet non-overlap were checked before fitting. Metrics were independently recomputed from the saved prediction CSV and matched the reported values.
 The scalers, TF-IDF vocabulary, SMOTE, and SVC models were fitted once using training samples only.
+
+## Software-design implication (post-execution)
+
+The Metric-based classifier is the stronger Event A screen, but it is not a refactoring decision rule. Its 190 positive predictions contain 96 true positives and 94 false positives, for precision 0.5053. A positive Metric prediction therefore identifies a class for manual review, not a class that should be changed automatically. Token/TF-IDF is less suitable as a screen here: 175 of its 260 positive predictions are false positives and its precision is 0.3269.
+
+Manual review should inspect responsibility boundaries, cohesion between methods and the state they use, and coupling to collaborators. It should also establish whether any observed concentration of responsibilities is harmful in the class's actual context. The project-disjoint holdout reduces direct repository overlap with Event A training, but this dataset was already used in M2 cross-validation; exact-string duplicate exclusion does not remove near-duplicates, generated code, or shared-library dependence. Neither classifier prediction establishes that a particular class needs refactoring.
+
+## Frozen RQ2 design-inspection queue
+
+Event A does not change the frozen M1 RQ2 selection rule: inspect the first 10 Metric-versus-Token disagreements in the reference `m2/disagreements.csv`, in its recorded order, that can be checked. The required next source inspections are:
+
+| Order | sample_id | Class | Metric / Token prediction | Source reference |
+|---|---:|---|---|---|
+| 1 | 3705164 | `ClientIdentity` | 1 / 0 | `alibaba/canal` `ClientIdentity.java`, lines 14-105 |
+| 2 | 3717506 | `BundleListener` | 0 / 1 | `alibaba/atlas` `BundleListener.java`, lines 24-32 |
+| 3 | 3727271 | `DruidPooledCallableStatement` | 1 / 0 | `alibaba/druid` `DruidPooledCallableStatement.java`, lines 40-1089 |
+| 4 | 3763661 | `SetOrderReferenceDetailsRequest` | 1 / 0 | `amzn/amazon-pay-sdk-java` `SetOrderReferenceDetailsRequest.java`, lines 25-272 |
+| 5 | 3772084 | `PrivateIonDatagram` | 0 / 1 | `amzn/ion-java` `PrivateIonDatagram.java`, lines 23-28 |
+| 6 | 3787706 | `TridentFastWordCount` | 0 / 1 | `alibaba/jstorm` `TridentFastWordCount.java`, lines 45-53 |
+| 7 | 3788627 | `C` | 1 / 0 | `amzn/exoplayer-amazon-port` `C.java`, lines 39-1015 |
+| 8 | 3796929 | `MqttDTO` | 1 / 0 | `apache/activemq-apollo` `MqttDTO.java`, lines 31-109 |
+| 9 | 3804138 | `ZookeeperServerCnxnFactory` | 0 / 1 | `alibaba/jstorm` `ZookeeperServerCnxnFactory.java`, lines 29-84 |
+| 10 | 3817323 | `Gatherer` | 0 / 1 | `apache/accumulo` `Gatherer.java`, lines 617-656 |
+
+The next concrete step is to inspect sample 3705164, `ClientIdentity`, against responsibility, cohesion, and coupling criteria, then continue in this frozen order. No refactoring conclusion is preassigned to any listed class.

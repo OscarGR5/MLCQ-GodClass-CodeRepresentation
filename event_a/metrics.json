@@ -1,0 +1,67 @@
+{
+  "event": "P35 Event A",
+  "event_a_plan_commit": "5465e46d55642d9f3423bdc63470fad5b72af184",
+  "dataset_git_blob_sha1": "6e1075ead90054ff9955cf310842c0d31a41e5dc",
+  "split": {
+    "training_samples": 1654,
+    "excluded_samples": 0,
+    "heldout_samples": 494,
+    "training_projects": 319,
+    "heldout_projects": 97
+  },
+  "label_distribution": {
+    "training": {
+      "total": 1654,
+      "negative": 1306,
+      "positive": 348,
+      "positive_rate": 0.21039903264812576
+    },
+    "holdout": {
+      "total": 494,
+      "negative": 381,
+      "positive": 113,
+      "positive_rate": 0.22874493927125505
+    }
+  },
+  "metrics": {
+    "Metric-based": {
+      "accuracy": 0.7753036437246964,
+      "precision": 0.5052631578947369,
+      "recall": 0.8495575221238938,
+      "f1": 0.6336633663366337,
+      "TP": 96,
+      "FP": 94,
+      "FN": 17,
+      "TN": 287
+    },
+    "Token-based": {
+      "accuracy": 0.5890688259109311,
+      "precision": 0.3269230769230769,
+      "recall": 0.7522123893805309,
+      "f1": 0.45576407506702415,
+      "TP": 85,
+      "FP": 175,
+      "FN": 28,
+      "TN": 206
+    }
+  },
+  "preregistered_challenge_criterion": "Metric positive-class F1 <= Token positive-class F1 on holdout",
+  "prediction_outcome": "SUPPORTED",
+  "m2_baselines": {
+    "bounded": {
+      "Metric-based": 0.6667,
+      "Token-based": 0.6667
+    },
+    "full_dataset_cv_mean": {
+      "Metric-based": 0.6379,
+      "Token-based": 0.4135
+    }
+  },
+  "saved_prediction_sha256": "be68092a8c94ca13dd734a6806d7f62e23dfd20579bf237c6694e0af4d8b3a47",
+  "validation": {
+    "input_and_manifest": "passed",
+    "project_disjointness": "passed",
+    "exact_snippet_non_overlap": "passed",
+    "metrics_recomputed_from_saved_predictions": "passed"
+  }
+}

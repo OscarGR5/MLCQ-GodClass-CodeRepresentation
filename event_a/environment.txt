@@ -1,0 +1,13 @@
+run_started: 2026-10-25T14:15:48+00:00
+command: event_a/run_holdout.py . --out event_a
+repo_head: 5465e46d55642d9f3423bdc63470fad5b72af184
+event_a_plan_commit: 5465e46d55642d9f3423bdc63470fad5b72af184
+dataset: data/god_class_df.csv sha=6e1075ead90054ff9955cf310842c0d31a41e5dc rows=2148
+python: 3.14.8 (Linux-7.2.10-200.fc44.x86_64-x86_64-with-glibc2.43)
+numpy: 2.5.4
+pandas: 3.0.6
+scikit-learn: 1.9.1
+imbalanced-learn: 0.14.2
+javalang: 0.13.0
+method: frozen M2 SVC(probability=True, random_state=42); SMOTE(random_state=42)
+metric scaler: StandardScaler(); token vectorizer: TfidfVectorizer(ngram_range=(1, 1)); token scaler: StandardScaler(with_mean=False)

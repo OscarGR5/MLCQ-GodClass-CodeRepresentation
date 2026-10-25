@@ -1,0 +1,17 @@
+P35 Event A frozen project-disjoint holdout evaluation
+started 2026-10-25T14:15:48+00:00
+command: event_a/run_holdout.py . --out event_a
+EVENT_A_PLAN: 5465e46d55642d9f3423bdc63470fad5b72af184
+dataset blob SHA-1: 6e1075ead90054ff9955cf310842c0d31a41e5dc
+split: training=1654, excluded=0, holdout=494
+projects: training=319, holdout=97
+author metric functions: count_methods@457, count_fields@473, calculate_tcc@488, count_lines_of_code@524, calculate_atfd@537, calculate_cyclomatic_complexity@604, calculate_lcom5@636
+label distribution training={'total': 1654, 'negative': 1306, 'positive': 348, 'positive_rate': 0.21039903264812576}; holdout={'total': 494, 'negative': 381, 'positive': 113, 'positive_rate': 0.22874493927125505}
+metric: fit training=1654, after_SMOTE=2612, evaluated=494
+token: fit training=1654, after_SMOTE=2612, vocabulary=47867, evaluated=494
+| Representation | TP | FP | FN | TN | Precision | Recall | F1 | Accuracy |
+|---|---|---|---|---|---|---|---|---|
+| Metric-based | 96 | 94 | 17 | 287 | 0.5053 | 0.8496 | 0.6337 | 0.7753 |
+| Token-based | 85 | 175 | 28 | 206 | 0.3269 | 0.7522 | 0.4558 | 0.5891 |
+preregistered outcome: SUPPORTED
+finished 2026-10-25T14:18:52+00:00

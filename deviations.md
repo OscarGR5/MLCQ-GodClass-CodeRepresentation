@@ -94,3 +94,36 @@ Format per entry: **what** changed / was found · **why** · **effect on interpr
   run (`m2/`); the re-run is supporting evidence. Threat noted: Token predictions
   are reproducible only up to platform-level numerical differences.
 - **Evidence:** `m2/rerun/comparison.txt`, `m2/rerun/predictions.csv`, both `environment.txt` files.
+
+
+
+---
+
+## Updates (5 Nov)
+- **Pending item resolved:** the second-machine re-run was completed on 18 Oct; see
+  "Reproducibility check" above.
+- **Re-run cause confirmed:** library versions identical on both machines (scikit-learn,
+  numpy, pandas, imbalanced-learn, javalang). Runs differ only in platform: macOS on
+  Apple Silicon (arm64, Python 3.14.7) vs Linux x86_64 (Python 3.14.8).
+
+## Event A (25 Oct)
+- **Split choice:** "held-out portion" operationalised as a project-disjoint split
+  (SHA-256 of owner/repo, mod 5 == 0). Fixed before results; does not read labels.
+  494 classes / 97 projects held out; 1,654 classes / 319 projects for training.
+- **Method:** frozen M2 method unchanged; only the split differs (one project-disjoint
+  split instead of 10-fold CV).
+- **Result:** SUPPORTED. Metric F1 0.6337 > Token F1 0.4558. M2 status unchanged
+  (NOT REPRODUCED).
+- **Threat:** the holdout is unseen by the Event A model, but not by the team: the same
+  dataset was used in M2, and M2 results informed the prediction. Only exact duplicate
+  snippets were checked (0 crossed the split); near-duplicates may remain.
+- **Prediction timing:** preregistered in event_a/plan.md (tag EVENT_A_PLAN, 25 Oct 14:10)
+  before execution (14:15); transcribed to the shared tracker afterwards.
+- **RQ2 sample unaffected:** the frozen first-10 disagreements come from the reference
+  m2/disagreements.csv (Tudor's run); the 2 re-run token flips sit at positions 299 and 361.
+
+## AI use (Event A)
+- select_holdout.py / run_holdout.py written by GPT
+- Verification of Event A was AI-assisted with Clade: split regenerated (identical manifest),
+  run_holdout.py re-run independently (byte-identical predictions), unit tests pass.
+  Reviewed by Tudor before merging PR #2

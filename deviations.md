@@ -127,3 +127,56 @@ Format per entry: **what** changed / was found · **why** · **effect on interpr
 - Verification of Event A was AI-assisted with Clade: split regenerated (identical manifest),
   run_holdout.py re-run independently (byte-identical predictions), unit tests pass.
   Reviewed by Tudor before merging PR #2
+
+
+---
+
+## M4: design decision (5 Nov)
+
+### Interim entry replaced
+- The interim M4 tracker entries (based on Event A detector reliability) were replaced on 5 Nov by
+  the decision based on the RQ2 inspection (`rq2/inspection.md`) and the refactoring in `m4/`.
+
+### RQ2 inspection
+- All 10 frozen disagreements inspected; each verdict cross-checked by the other team member.
+  Result: 1 clear design problem (case 7, `C`, 3788627), 9 no clear problem, 0 unclear.
+- Verdict wording standardised to the frozen M1 phrase ("No clear problem") when moving the
+  working doc into the repo; case 1's code-evidence bullets restored from the agreed draft;
+  typos and one line-number error (case 7: 998 -> 988) corrected. No verdicts changed.
+
+### Design choices in the refactoring (m4/)
+- **Two classes instead of one:** the 3 methods were moved into `TimeUtil` (time conversion) and
+  `AudioSessionUtil` (Android audio session), not a single utility class. Upstream ExoPlayer later
+  moved them into its general `Util` class; we split them so the two unrelated responsibilities are
+  not recombined, and so the pure-Java time logic is testable without Android.
+- **Deprecated delegates kept in `C`:** preserves the public API for existing callers. Consequence:
+  `C` keeps a `Context` dependency until the delegates are removed (two-step migration).
+- **Cosmetic:** the blank line before the final `}` of `after/C.java` was removed (visible in
+  `m4/C_before_after.diff`); no effect on behaviour.
+
+### Verification limits (threats)
+- `C.java` and `AudioSessionUtil.java` were not compiled: they require the Android SDK.
+- `generateAudioSessionIdV21` is verified by reviewing the diff (the delegate forwards the same
+  argument to the unchanged, moved method), not by running it.
+- The time-conversion test uses a test-only stub `C` holding just `TIME_END_OF_SOURCE` and
+  `TIME_UNSET`, copied verbatim from `before/C.java` L48 and L54.
+- The refactoring was done on a single-file snapshot, not inside the full ExoPlayer build, so
+  ExoPlayer's own callers and test suite were not run.
+- The original `msToUs` overflows for very large inputs (e.g. `Long.MAX_VALUE` -> -1000); the
+  refactored version reproduces this exactly. Preserved, not fixed, because a refactoring must not
+  change behaviour.
+
+### Review
+Reviewed by Oscar before merging PR #3
+
+### Pending
+- Detector check: run the frozen metric SVM on `m4/after/C.java`. Prediction recorded in
+  `m4/README.md` before checking: `C` will still be flagged (164 fields and ~900 LOC unchanged).
+
+### AI use (RQ2 + M4)
+- RQ2: Oscar's ChatGPT-assisted notes proposed `C` as the candidate; Claude extracted class
+  structures and computed `C`'s feature percentiles.
+  All verdicts were made us against the code; Tudor's check corrected one AI claim
+  (Android coupling: `C` already depends on `AudioManager` through its constants).
+- M4: Claude drafted the code skeletons; Tudor created the files, applied
+  the edit to `C.java`, ran the diff and the test, and wrote the README and detector prediction.

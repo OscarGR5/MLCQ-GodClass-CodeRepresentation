@@ -169,9 +169,17 @@ Format per entry: **what** changed / was found · **why** · **effect on interpr
 ### Review
 Reviewed by Oscar before merging PR #3
 
-### Pending
+### Detector check(5nov)
 - Detector check: run the frozen metric SVM on `m4/after/C.java`. Prediction recorded in
-  `m4/README.md` before checking: `C` will still be flagged (164 fields and ~900 LOC unchanged).
+  `m4/README.md` before checking: `C` will still be flagged (164 fields and ~900 LOC unchanged). 
+-post running results below:
+- Frozen M2 metric SVM, trained on all 2,147 samples except `C` (3788627), scored on the class body
+  (L39-end) of before/after `C.java`. Before matches the dataset sample exactly.
+- Result: before = 1 (God Class), after = 1; P(God Class) 0.8032 -> 0.8036. Prediction in
+  m4/README.md (commit f1fa605, written before the check) **supported**.
+- Only LOC changed (908 -> 896); the other 6 features are identical, so the refactoring is invisible
+  to the detector. Evidence: m4/detector_check.txt.
+- AI use: Claude wrote detector_check.py; Tudor ran it and checked the before-sample sanity line.
 
 ### AI use (RQ2 + M4)
 - RQ2: Oscar's ChatGPT-assisted notes proposed `C` as the candidate; Claude extracted class

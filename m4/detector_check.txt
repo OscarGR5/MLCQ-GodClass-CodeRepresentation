@@ -1,0 +1,19 @@
+before/C.java (L39-end) identical to dataset sample 3788627: True
+trained on 2147 samples (excluding 3788627); after SMOTE: 3374
+
+version                  before     after
+count_methods            3.0000    3.0000
+count_fields           164.0000  164.0000
+tcc                      0.0000    0.0000
+cyclomatic_complexity    1.0000    1.0000
+loc                    908.0000  896.0000
+atfd                     3.0000    3.0000
+lcom5                    6.0000    6.0000
+prediction               1.0000    1.0000
+P(God Class)             0.8032    0.8036
+decision_value           0.8464    0.8479
+
+prediction: 1 = flagged as God Class, 0 = not flagged
+decision_value: distance from the SVM boundary (> 0 means the God Class side)
+
+versions: python 3.14.7, scikit-learn 1.9.1, imbalanced-learn 0.14.2, numpy 2.5.4, pandas 3.0.6

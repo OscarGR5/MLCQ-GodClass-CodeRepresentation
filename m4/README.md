@@ -55,6 +55,6 @@ because its 164 fields and around 900 LOC are unchanged which would mean the det
 responsibilities we fixed.
 
 ## AI use
-[e.g. "Claude drafted the step-by-step plan and code skeletons; Tudor wrote the files, ran the
+Claude helped us drafted the step-by-step plan and code skeletons, and we  wrote the files, ran the
 diff and the test, and checked results. Oscar's ChatGPT-assisted notes identified the candidate;
-the team verified it against the code (rq2/inspection.md)."]
+the team verified it against the code (rq2/inspection.md).

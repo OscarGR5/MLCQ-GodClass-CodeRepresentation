@@ -1,0 +1,12 @@
+m4/after/C.java
+  explicit imports (17): android.annotation.TargetApi, android.content.Context, android.media.AudioFormat, android.media.AudioManager, android.media.MediaCodec, android.media.MediaFormat, android.support.annotation.IntDef, android.view.Surface, com.google.android.exoplayer2.PlayerMessage.Target, com.google.android.exoplayer2.audio.AuxEffectInfo, com.google.android.exoplayer2.util.Util, com.google.android.exoplayer2.video.VideoFrameMetadataListener, com.google.android.exoplayer2.video.spherical.CameraMotionListener, java.lang.annotation.Documented, java.lang.annotation.Retention, java.lang.annotation.RetentionPolicy, java.util.UUID
+m4/after/TimeUtil.java
+  explicit imports (1): com.google.android.exoplayer2.C
+m4/after/AudioSessionUtil.java
+  explicit imports (3): android.annotation.TargetApi, android.content.Context, android.media.AudioManager
+event_b/before/canal/ClientIdentity.java
+  explicit imports (4): java.io.Serializable, org.apache.commons.lang.StringUtils, org.apache.commons.lang.builder.ToStringBuilder, com.alibaba.otter.canal.common.utils.CanalToStringStyle
+event_b/src/com/alibaba/otter/canal/protocol/ClientIdentityPropertiesStore.java
+  explicit imports (7): java.io.IOException, java.io.InputStream, java.io.OutputStream, java.nio.file.Files, java.nio.file.Path, java.util.Objects, java.util.Properties
+event_b/src/com/google/android/exoplayer2/util/PlaybackDurationFormatter.java
+  explicit imports (1): com.google.android.exoplayer2.C

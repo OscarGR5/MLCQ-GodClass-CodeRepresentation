@@ -1,0 +1,152 @@
+Source identity checks
+m4/before/C.java: OK
+m4/after/C.java: OK
+m4/after/TimeUtil.java: OK
+m4/after/AudioSessionUtil.java: OK
+event_b/before/canal/ClientIdentity.java: OK
+Tracked files outside event_b match PRE_EVENT_B
+openjdk version "21.0.13" 2026-10-20 LTS
+OpenJDK Runtime Environment Temurin-21.0.13+9 (build 21.0.13+9-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.13+9 (build 21.0.13+9-LTS, mixed mode, sharing)
+javac 21.0.13
+Compile focused tests with javac --release 8 -encoding UTF-8 -Xlint:all
+warning: [options] source value 8 is obsolete and will be removed in a future release
+warning: [options] target value 8 is obsolete and will be removed in a future release
+warning: [options] To suppress warnings about obsolete options, use -Xlint:-options.
+3 warnings
+Run unchanged M4 regression
+ok  usToMs(0) = 0
+ok  msToUs(0) = 0
+ok  usToMs(1) = 0
+ok  msToUs(1) = 1000
+ok  usToMs(999) = 0
+ok  msToUs(999) = 999000
+ok  usToMs(1000) = 1
+ok  msToUs(1000) = 1000000
+ok  usToMs(1001) = 1
+ok  msToUs(1001) = 1001000
+ok  usToMs(-1) = 0
+ok  msToUs(-1) = -1000
+ok  usToMs(-1000) = -1
+ok  msToUs(-1000) = -1000000
+ok  usToMs(123456789) = 123456
+ok  msToUs(123456789) = 123456789000
+ok  usToMs(9223372036854775807) = 9223372036854775
+ok  msToUs(9223372036854775807) = -1000
+ok  usToMs(-9223372036854775806) = -9223372036854775
+ok  msToUs(-9223372036854775806) = 2000
+ok  usToMs(-9223372036854775807) = -9223372036854775807
+ok  msToUs(-9223372036854775807) = -9223372036854775807
+ok  usToMs(-9223372036854775808) = -9223372036854775808
+ok  msToUs(-9223372036854775808) = -9223372036854775808
+ok  usToMs(TIME_UNSET) = -9223372036854775807
+ok  msToUs(TIME_END_OF_SOURCE) = -9223372036854775808
+ALL 26 CHECKS PASSED: TimeUtil behaves identically to the original C methods.
+Run Event B formatter tests
+ok  zero = 0:00
+ok  one microsecond = 0:00
+ok  last subsecond = 0:00
+ok  one second = 0:01
+ok  fractional second = 0:01
+ok  single digit seconds = 0:09
+ok  two digit seconds = 0:10
+ok  before minute boundary = 0:59
+ok  minute boundary = 1:00
+ok  after minute boundary = 1:00
+ok  minute and second = 1:01
+ok  before hour boundary = 59:59
+ok  hour boundary uses total minutes = 60:00
+ok  beyond hour = 61:01
+ok  maximum long = 153722867280:54
+ok  unknown time = --:--
+ok  end of source = --:--
+ok  rejected negative duration -1
+ok  rejected negative duration -1000000
+ok  rejected negative duration -9223372036854775806
+ok  ASCII under Arabic locale = 1:01
+ALL 21 CHECKS PASSED: playback duration formatting.
+Run Event B properties persistence tests (real temporary filesystem)
+ok  normal destination
+ok  normal clientId
+ok  normal filter
+ok  normal returns a new instance
+ok  short minimum destination
+ok  short minimum clientId
+ok  short minimum filter
+ok  short minimum returns a new instance
+ok  short maximum destination
+ok  short maximum clientId
+ok  short maximum filter
+ok  short maximum returns a new instance
+ok  null strings destination
+ok  null strings clientId
+ok  null strings filter
+ok  null strings returns a new instance
+ok  null destination key omitted
+ok  null filter key omitted
+ok  zero clientId written
+ok  empty strings destination
+ok  empty strings clientId
+ok  empty strings filter
+ok  empty strings returns a new instance
+ok  empty destination key present
+ok  empty filter key present
+ok  null destination empty filter destination
+ok  null destination empty filter clientId
+ok  null destination empty filter filter
+ok  null destination empty filter returns a new instance
+ok  empty destination null filter destination
+ok  empty destination null filter clientId
+ok  empty destination null filter filter
+ok  empty destination null filter returns a new instance
+ok  escaped Unicode and whitespace destination
+ok  escaped Unicode and whitespace clientId
+ok  escaped Unicode and whitespace filter
+ok  escaped Unicode and whitespace returns a new instance
+ok  baseline equals ignores filter
+ok  filter must survive despite equals destination
+ok  filter must survive despite equals clientId
+ok  filter must survive despite equals filter
+ok  save does not mutate input destination
+ok  save does not mutate input clientId
+ok  save does not mutate input filter
+ok  optional keys absent destination
+ok  optional keys absent clientId
+ok  optional keys absent filter
+ok  standard properties duplicate and unknown keys destination
+ok  standard properties duplicate and unknown keys clientId
+ok  standard properties duplicate and unknown keys filter
+ok  overwrite removes stale fields destination
+ok  overwrite removes stale fields clientId
+ok  overwrite removes stale fields filter
+ok  overwrite removes stale fields returns a new instance
+ok  only clientId key remains
+ok  null identity -> NullPointerException
+ok  null identity did not truncate file
+ok  null save path -> NullPointerException
+ok  null load path -> NullPointerException
+ok  missing file -> IOException
+ok  missing parent -> IOException
+ok  cannot write directory -> IOException
+ok  cannot read directory as properties -> IOException
+ok  missing clientId -> IOException
+ok  empty clientId -> IOException
+ok  empty clientId cause
+ok  nonnumeric clientId -> IOException
+ok  nonnumeric clientId cause
+ok  clientId overflow -> IOException
+ok  clientId overflow cause
+ok  clientId underflow -> IOException
+ok  clientId underflow cause
+ok  escaped leading space in clientId -> IOException
+ok  escaped leading space in clientId cause
+ok  trailing space in clientId -> IOException
+ok  trailing space in clientId cause
+ok  malformed Unicode escape -> IOException
+ok  malformed Unicode escape cause
+ok  recovery after malformed input destination
+ok  recovery after malformed input clientId
+ok  recovery after malformed input filter
+ok  recovery after malformed input returns a new instance
+ALL 82 CHECKS PASSED: client identity properties persistence.
+All verification commands exited 0

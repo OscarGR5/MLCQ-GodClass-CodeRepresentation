@@ -1,3 +1,19 @@
+# P35(G13): Code Representation for ML-Based God Class Detection
+
+ CS4928 project fork (Tudor, Oscar,Nathan,Ivan,Marcus). The original authors README follows below the line
+
+| Stage | Where | Tag |
+|---|---|---|
+| M1 plan + feasibility | `m1_feasibility_check.py`, `m1_feasibility_output.txt` | `M1_PLAN` |
+| M2 bounded reproduction (12 cases, Metric vs Token SVM) | `m2/` (`results.md`, `rerun/`) | `M2_REPRO`, `PRE_EVENT_A` |
+| Event A (held-out transfer) | `event_a/` | `EVENT_A_PLAN` |
+| RQ2 manual inspection of disagreements | `rq2/inspection.md` | |
+| M4 design decision (Move Method on `C`) | `m4/` | `PRE_EVENT_B` |
+| Event B (new change pressure) | `event_b/` (run `bash event_b/verify.sh`) | |
+| Deviations, threats, AI use | `deviations.md` | |
+| Final state | | `FINAL` |
+
+---
 # A Study on the Effect of Code Representation Techniques on Machine Learning Results for God Class Code Smell Detection
 
 ## Overview
@@ -49,9 +65,9 @@ The results highlight how representation techniques affect detection performance
    Open the plots in the `visualizations/` folder for performance summaries.
 
 4. **Browse the Web Interface**  
-   A user-friendly interface is available at  
-   👉 **[GitHub Pages Web Interface](https://elmohandharoon.github.io/MLCQ-GodClass-CodeRepresentation/)**  
-   Alternatively, open `docs/index.html` in a browser.
+    user-friendly interface is available at  
+   **[GitHub Pages Web Interface](https://elmohandharoon.github.io/MLCQ-GodClass-CodeRepresentation/)**  
+   Alternatively,you can  open `docs/index.html` in browser to view it.
 
 ---
 

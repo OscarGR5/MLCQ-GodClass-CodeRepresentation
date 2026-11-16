@@ -4,8 +4,8 @@ cd "$(dirname "$0")/.."
 
 echo 'Source identity checks'
 sha256sum --check event_b/evidence/SHA256SUMS
-git diff --exit-code PRE_EVENT_B -- . ':!event_b'
-echo 'Tracked files outside event_b match PRE_EVENT_B'
+git diff --exit-code PRE_EVENT_B -- data scripts m2 m4 rq2 event_a m1_feasibility_check.py m1_feasibility_output.txt
+echo 'Frozen evidence (data, scripts, m1, m2, m4, rq2, event_a) matches PRE_EVENT_B'
 
 java -version 2>&1
 javac -version

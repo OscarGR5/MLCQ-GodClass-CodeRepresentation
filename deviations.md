@@ -188,3 +188,59 @@ Reviewed by Oscar before merging PR #3
   (Android coupling: `C` already depends on `AudioManager` through its constants).
 - M4: Claude drafted the code skeletons; Tudor created the files, applied
   the edit to `C.java`, ran the diff and the test, and wrote the README and detector prediction.
+
+---
+
+## Event B (16 Nov)
+
+### Prediction and order of work
+- Pre-execution prediction recorded in the group Google Doc on 8 Nov, before any Event B commit.
+  The audit and exact behaviour contract were committed first (`abccc8b`), then the implementation
+  (`0263fa5`), merged via PR #4 (`a015a16`). The prediction was not edited after results.
+- Start point: `PRE_EVENT_B` = `b590e1b`. No M4/RQ2 evidence, labels, models, tags or history changed.
+
+### What was done
+- ExoPlayer `C` (3788627): new display pressure (microseconds -> minutes:seconds) implemented as a
+  new `PlaybackDurationFormatter` class; the three POST-M4 files (`C`, `TimeUtil`, `AudioSessionUtil`)
+  are byte-identical.
+- Canal `ClientIdentity` (3705164, original false positive): new persistence pressure (.properties
+  save/load) implemented as a new `ClientIdentityPropertiesStore`; the pinned identity source is unchanged.
+- The direct alternatives (adding the behaviour to `C` / `ClientIdentity`) were analysed, not implemented.
+- Result: 129/129 checks passed (formatter 21, persistence store 82, unchanged M4 TimeUtilTest 26).
+  M4's Move Method decision **supported within this bounded experiment**.
+
+### Verification limits (threats)
+- Formatter tests compile against the existing two-constant M4 stub `C`, not the real Android `C`.
+- Canal's `ClientIdentity` compiles against three labelled test-only stubs (`StringUtils`,
+  `ToStringBuilder`, `CanalToStringStyle`) that throw if invoked, so `hasFilter`/`toString` were not validated.
+- No Android or full upstream build, integration test, Java 7 bytecode check, atomic-write/crash
+  test, or concurrency test. Compiled with `javac --release 8` (oldest target the JDK supports).
+- Fewer file edits, lower total coupling and future change spread were **not** measured;
+  the future-change table in `event_b/README.md` is hypothetical.
+- The detector was not re-run or retuned; `ClientIdentity` remains an original false positive.
+
+### Deviation: verify.sh frozen-state check narrowed (16 Nov)
+- Original check (also listed under "Verification results" in `event_b/README.md`):
+  `git diff --exit-code PRE_EVENT_B -- . ':!event_b'`, i.e. everything outside `event_b/` must match PRE_EVENT_B.
+- Problem: the post-Event-B documentation (this file, the root README) lives outside `event_b/`, so that
+  check would fail at FINAL even though no evidence changed.
+- Change: the check now covers only result-producing evidence: `data`, `scripts`, `m2`, `m4`, `rq2`,
+  `event_a` and the two M1 feasibility files. The README command above is superseded by `verify.sh`.
+- Before the change, verify.sh passed on a clean checkout of `a015a16`; after it, it passes on
+  `final-cleanup` (all 82 store checks, "All verification commands exited 0").
+- Effect: weaker only for documentation files; every result-producing file is still checked.
+
+### AI use (Event B)
+- Implementation: Oscar used Codex to assist with implementing `PlaybackDurationFormatter` and
+  `ClientIdentityPropertiesStore`, including their test harnesses, verification scripts and
+  supporting documentation (`AUDIT.md`, `README.md`, `RESPONSE.md`).
+- Verification: Codex helped inspect the changes against the frozen M4 state, check source
+  preservation, and execute the tests. All 129 focused checks passed.
+- Final review: Oscar used ChatGPT and Codex to audit Event B against the assignment requirements,
+  identify remaining documentation gaps, and verify repository integration. AI-generated conclusions
+  were checked against the actual code, Git history and recorded test evidence.
+- Claude (claude.ai) guided Tudor through creating and pushing the `PRE_EVENT_B` tag, independently
+  re-ran `verify.sh` on a clean checkout of `a015a16` to confirm it passed, identified that the
+  original frozen-state check would fail at FINAL, proposed the narrowed folder list, and drafted
+  this entry from `event_b/README.md`, `AUDIT.md` and `RESPONSE.md`. Tudor edited `verify.sh` by
+  hand, checked the diff and re-ran it.
